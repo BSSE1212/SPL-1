@@ -1,13 +1,65 @@
+#include<stdio.h>
+#define MAX_BOOK_NAME 100
+int main(){
+
+
+
+
+
+
+}
+
+
+void menu()
+{
+    int choice = 0;
+    do
+    {
+        printf("MAIN MENU");
+        printf("\n\n\n\t\t\t1.Store_information");
+        printf("\n\t\t\t2.Read_book");
+        printf("\n\t\t\t3.View Books");
+        printf("\n\t\t\t4.Delete Book");
+        printf("\n\t\t\t0.Exit");
+        printf("\n\n\n\t\t\tEnter choice => ");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+        case 1:
+           Store_information();
+            break;
+        case 2:
+            Read_book();
+            break;
+        case 3:
+            viewBooks();
+            break;
+        case 4:
+            deleteBooks();
+            break;
+
+        case 0:
+            printf("\n\n\n\t\t\t\tThank you!!!\n\n\n\n\n");
+            exit(1);
+            break;
+        default:
+            printf("\n\n\n\t\t\tWrong Input!!! Try again...");
+        }                                            //Switch Ended
+    }
+    while(choice!=0);                                        //Loop Ended
+}
+
+
 // view store informatiom
 void store_info()
 {
     int found = 0;
     char bookName[MAX_BOOK_NAME] = {0};
-    s_BooksInfo addBookInfoInDataBase = {0};
+    s_Store_Info addBookInfoInDataBase = {0};
     FILE *fp = NULL;
     int status = 0;
     unsigned int countBook = 1;
-    headMessage("VIEW BOOKS DETAILS");
+    headMessage("VIEW STORE BOOKS DETAILS");
     fp = fopen(FILE_NAME,"rb");
     if(fp == NULL)
     {
@@ -39,4 +91,38 @@ void store_info()
     printf("\n\n\t\t\tPress any key to go to main menu.....");
     fflush(stdin);
     getchar();
+}
+void Read_book(){
+
+
+ FILE *fp;
+
+ fp = freopen("momin.txt","r");
+
+ if(!fp){
+    printf("Error open this file");
+    exit(1);
+ }
+
+ char ch = getc(fp);
+ int count =1;
+
+  while ((ch != '\n') && (ch != EOF)) {
+
+
+        printf("%d. %s",count,ch++);
+
+
+        ch = getc(file);
+    }
+
+
+
+
+
+
+
+
+
+
 }
