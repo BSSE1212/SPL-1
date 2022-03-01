@@ -1,25 +1,41 @@
 #include<stdio.h>
-#define MAX_BOOK_NAME 100
+#include<string.h>
+#define MAX_BOOK 50
 int main(){
-
-
+    void WELCOME_PAGE();
+    void MAIN_MENU();
 
 
 
 
 }
+void WELCOME_PAGE()
+{
+    printf("\n\n\n\n\n");
+    printf("\n\t\t\t  ########################################################\n");
+    printf("\n\t\t\t        ............................................");
+    printf("\n\t\t\t        .                 WELCOME                   .");
+    printf("\n\t\t\t        .                   TO                      .");
+    printf("\n\t\t\t        .                 LIBRARY                   .");
+    printf("\n\t\t\t        .               MANAGEMENT                  .");
+    printf("\n\t\t\t        .                 SYSTEM                    .");
+    printf("\n\t\t\t        ............................................");
+    printf("\n\t\t\t  ########################################################\n");
+    printf("\n\n\n\t\t\t Press any key to continue.....");
+    getch();
+}
 
-
-void menu()
+void MAIN_MENU()
 {
     int choice = 0;
     do
     {
-        printf("MAIN MENU");
+        printf("\t\t\t\tMAIN MENU");
         printf("\n\n\n\t\t\t1.Store_information");
         printf("\n\t\t\t2.Read_book");
         printf("\n\t\t\t3.View Books");
         printf("\n\t\t\t4.Delete Book");
+        printf("\n\t\t\t5.Search Book");
         printf("\n\t\t\t0.Exit");
         printf("\n\n\n\t\t\tEnter choice => ");
         scanf("%d",&choice);
@@ -32,10 +48,13 @@ void menu()
             Read_book();
             break;
         case 3:
-            viewBooks();
+              void book_list();
             break;
         case 4:
             deleteBooks();
+            break;
+        case 4:
+           Information_retrieval();
             break;
 
         case 0:
@@ -44,9 +63,9 @@ void menu()
             break;
         default:
             printf("\n\n\n\t\t\tWrong Input!!! Try again...");
-        }                                            //Switch Ended
+        }
     }
-    while(choice!=0);                                        //Loop Ended
+    while(choice!=0);
 }
 
 
@@ -75,11 +94,11 @@ void store_info()
     while (fread (&addBookInfoInDataBase, sizeof(addBookInfoInDataBase), 1, fp))
     {
         printf("\n\t\t\tBook Count = %d\n\n",countBook);
-        printf("\t\t\tBook id = %u",addBookInfoInDataBase.books_id);
-        printf("\n\t\t\tBook name = %s",addBookInfoInDataBase.bookName);
-        printf("\t\t\tBook authorName = %s",addBookInfoInDataBase.authorName);
-        printf("\t\t\tBook issue date(day/month/year) =  (%d/%d/%d)",addBookInfoInDataBase.bookIssueDate.dd,
-               addBookInfoInDataBase.bookIssueDate.mm, addBookInfoInDataBase.bookIssueDate.yyyy);
+        printf("\t\t\tBook id = %u",addBook.books_id);
+        printf("\n\t\t\tBook name = %s",addBook.bookName);
+        printf("\t\t\tBook authorName = %s",addBook.authorName);
+        printf("\t\t\tBook issue date(day/month/year) =  (%d/%d/%d)",addBook.bookIssueDate.dd,
+               addBook.bookIssueDate.mm, addBook.bookIssueDate.yyyy);
         found = 1;
         ++countBook;
     }
@@ -92,8 +111,50 @@ void store_info()
     fflush(stdin);
     getchar();
 }
-void Read_book(){
 
+    void book_list(){
+
+    int i;
+    struct book_list{
+        char name[100];
+        char author_name[100];
+        char category[100];
+
+    for(i=0;i<MAX_BOOK;I++){
+
+    }
+
+
+                                    //get input info about books and
+                                    //display them
+
+
+
+
+
+
+    }
+
+ void search_books(){
+
+
+ struct search_book{
+    char name[100];
+    char authorname[100];
+    char category[100];
+    }
+
+
+                                                            //match with book_list to be confirm that we have the book or not
+
+
+
+ }
+
+
+
+void Read_book(){
+    search_books();
 
  FILE *fp;
 
@@ -116,9 +177,30 @@ void Read_book(){
         ch = getc(file);
     }
 
+}
+
+void add_books(){
 
 
 
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+    }
 
 
 
