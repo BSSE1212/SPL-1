@@ -48,12 +48,12 @@ void MAIN_MENU()
             Read_book();
             break;
         case 3:
-              void book_list();
+            book_list();
             break;
         case 4:
             deleteBooks();
             break;
-        case 4:
+        case 5:
            Information_retrieval();
             break;
 
@@ -73,7 +73,7 @@ void MAIN_MENU()
 void store_info()
 {
     int found = 0;
-    char bookName[MAX_BOOK_NAME] = {0};
+    char bookName[MAX_BOOK] = {0};
     s_Store_Info addBookInfoInDataBase = {0};
     FILE *fp = NULL;
     int status = 0;
@@ -91,7 +91,7 @@ void store_info()
         printf("Facing issue while reading file\n");
         exit(1);
     }
-    while (fread (&addBookInfoInDataBase, sizeof(addBookInfoInDataBase), 1, fp))
+    while (fread (&addBook, sizeof(addBook), 1, fp))
     {
         printf("\n\t\t\tBook Count = %d\n\n",countBook);
         printf("\t\t\tBook id = %u",addBook.books_id);
@@ -111,6 +111,76 @@ void store_info()
     fflush(stdin);
     getchar();
 }
+ //   #include<stdio.h>
+//#include<string.h>
+//#define SIZE 20
+
+struct book_list
+{
+          char name[100];
+          char author[100];
+          char category[100];
+
+};
+
+void output(struct book_list v[],int MAX_BOOK);
+
+void main()
+{
+          struct bookdetail b[SIZE];
+
+          int num,i;
+          printf("Enter the Numbers of Books:");
+          scanf("%d",&num);
+          printf("\n");
+          for(i=0;i<num;i++)
+
+          {
+
+                   printf("\t=:Book %d Detail:=\n",i+1);
+
+                   printf("\nEnter the Book Name:\n");
+                   scanf("%s",b[i].name);
+
+                   printf("Enter the Author of Book:\n");
+                   scanf("%s",b[i].author);
+
+                   printf("Enter the category of Book:\n");
+                   scanf("%s",b[i].category);
+
+          }
+
+          output(b,num);
+
+}
+
+void output(struct book_list v[],int MAX_BOOK)
+
+{
+
+          int i,t=1;
+
+          for(i=0;i<MAX_BOOK;i++,t++)
+
+          {
+
+                    printf("\n");
+
+                   printf("Book No.%d\n",t);
+
+                   printf("\t\tBook %d Name is=%s \n",t,v[i].name);
+
+                   printf("\t\tBook %d Author is=%s \n",t,v[i].author);
+
+                   printf("\t\tBook %d category is=%s \n",t,v[i].pages);
+
+                   printf("\n");
+
+          }
+
+}
+
+
 
     void book_list(){
 
