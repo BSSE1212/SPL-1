@@ -30,7 +30,7 @@ void WELCOME_PAGE()
     printf("\n\t\t\t        ............................................");
     printf("\n\t\t\t  ########################################################\n");
 
-    printf("\n\n\n\t\t\t Press any key to continue.....");
+    printf("\n\n\n\t\t\t Press any key to continue.....\n\n");
     getch();
 }
 
@@ -139,11 +139,6 @@ void Store_information()
 
 
 
-
-
-//void output(struct book_list v[],int MAX_BOOK);
-
-
 void output(struct book_list v[],int MAX_BOOK)
 
 {
@@ -205,7 +200,7 @@ void output(struct book_list v[],int MAX_BOOK)
                     trace = 1;
                 printf("Book found\n");
                 printf("Book name: %s",name);
-                printf("Bauthor name: %s",author);
+                printf("Author name: %s",author);
                 printf("catagory name: %s",catagory);
 
                 break;
@@ -224,26 +219,33 @@ void output(struct book_list v[],int MAX_BOOK)
 
 void Read_book(){
     search_books();
+char bookname[50];
+printf("input book name: ");
+
+    gets(bookname);
+    strcat(bookname,".txt");
+    printf("the %s is opening soon %d \n",bookname,strcmp(bookname,"Gora.txt"));
 
  FILE *fp;
 
- fp = fopen("textbook1.txt","r");
+ fp = fopen(bookname,"r+");        //read corresponding text
 
  if(!fp){
     printf("Error open this file");
     exit(1);
  }
+ char ch[1000];
+ printf("the %s is opening\n",bookname);
 
- char ch = getc(fp);
- int count =1;
+ while(1){
 
-  while ((ch != '\n') && (ch != EOF)) {
+            if(fgets(ch,100,fp)==NULL){
+                break;
+            }
+
+        printf("%s\n",ch);
 
 
-        printf("%d. %s",count,ch++);
-
-
-        ch = getc(fp);
     }
 
 }
@@ -319,11 +321,6 @@ void MAIN_MENU()
     }
     while(choice!=0);
 }
-
-
-
-
-
 
 
 
