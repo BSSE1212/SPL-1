@@ -16,6 +16,7 @@ struct book_list
 struct book_list b[50];
 
 void output(struct book_list v[],int MAX_BOOK);
+void Store_information();
 
 void WELCOME_PAGE()
 {
@@ -111,59 +112,6 @@ void book_List()
 }*/
 
 
-void Store_information()
-{
-    int counter=0,number_of_book;
-    char temp[100];
-
-    FILE *fp;
-
-    if((fp= fopen("test.txt","r"))==NULL){
-        printf("Error openning file");
-        exit(0);
-    }
-
-    fscanf(fp, "%d\n",&number_of_book);
-    printf("Total number of book: %d \n",number_of_book);
-
-    for(int i=0;i<number_of_book;i++){
-            fgets(b[i].name, 100, fp);
-            fgets(b[i].author_name, 100, fp);
-            fgets(b[i].category, 100, fp);
-
-
-    }
-
-}
-
-
-
-
-void output(struct book_list v[],int MAX_BOOK)
-
-{
-
-          int i,t=1;
-
-          for(i=0;i<MAX_BOOK;i++,t++)
-
-          {
-
-                    printf("\n");
-
-                   printf("Book No.%d\n",t);
-
-                   printf("\t\tBook %d Name is=%s \n",t,v[i].name);
-
-                   printf("\t\tBook %d Author is=%s \n",t,v[i].author_name);
-
-                   printf("\t\tBook %d category is=%s \n",t,v[i].page);
-
-                   printf("\n");
-
-          }
-
-}
 
 
 
@@ -260,6 +208,59 @@ void add_books(){
 
 
 
+
+}
+void Store_information()
+{
+    int counter=0,number_of_book;
+    char temp[100];
+
+    FILE *fp;
+
+    if((fp= fopen("test.txt","r"))==NULL){
+        printf("Error openning file");
+        exit(0);
+    }
+
+    fscanf(fp, "%d\n",&number_of_book);
+    printf("Total number of book: %d \n",number_of_book);
+
+    for(int i=0;i<number_of_book;i++){
+            fgets(b[i].name, 100, fp);
+            fgets(b[i].author_name, 100, fp);
+            fgets(b[i].category, 100, fp);
+
+
+    }
+
+}
+
+
+
+
+void output(struct book_list v[],int MAX_BOOK)
+
+{
+
+          int i,t=1;
+
+          for(i=0;i<MAX_BOOK;i++,t++)
+
+          {
+
+                    printf("\n");
+
+                   printf("Book No.%d\n",t);
+
+                   printf("\t\tBook %d Name is=%s \n",t,v[i].name);
+
+                   printf("\t\tBook %d Author is=%s \n",t,v[i].author_name);
+
+                   printf("\t\tBook %d category is=%s \n",t,v[i].page);
+
+                   printf("\n");
+
+          }
 
 }
 
