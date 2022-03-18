@@ -34,7 +34,20 @@ void WELCOME_PAGE()
     printf("\n\n\n\t\t\t Press any key to continue.....\n\n");
     getch();
 }
+    void login(){
+    char name[20];
+    char password[10];
+    printf("Enter username: ");
+    scanf("%s",name);
+    printf("Enter password: ");
+    scanf("%s",password);
+    if (strcmp(name, "Admin") == 0 && strcmp(password, "pass") == 0)
+    printf("Access granted\n");
+    else printf("Access denied\n");
 
+
+    getch();
+    }
 
 
 void book_List()
