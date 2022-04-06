@@ -18,6 +18,117 @@ printf("\n\n\n\n\t\t\tPress Enter to proceed...!!");
 if(getch()==13)
   clrscr();
 
+  void reg()
+
+  {
+
+    FILE *fp;
+
+    char c,checker[30]; int z=0;
+
+    fp=fopen("Web_reg.txt","ab+");
+
+    printf("\n\n\t\t\t\tWELCOME TO REGISTER ZONE");
+
+    printf("\n\t\t\t\t^^^^^^^^^^^^^^^^^^^^^^^^");
+
+    for(i=0;i&lt;100;i++)
+
+    {
+
+      printf("\n\n\t\t\t\t  ENTER USERNAME: ");
+
+      scanf("%s",checker);
+
+        while(!feof(fp))
+
+        {
+
+          fread(&amp;w[i],sizeof(w[i]),1,fp);
+
+          if(strcmp(checker,w[i].name)==0)
+
+            {
+
+            printf("\n\n\t\t\tUSERNAME ALREDY EXISTS");
+
+            clrscr();
+
+            reg();
+
+            }
+
+          else
+
+          {
+
+            strcpy(w[i].name,checker);
+
+            break;
+
+          }
+
+        }
+
+      printf("\n\n\t\t\t\t  DESIRED PASSWORD: ");
+
+      while((c=getch())!=13)
+
+        {
+
+          w[i].pass[z++]=c;
+
+          printf("%c",'*');
+
+        }
+
+      fwrite(&amp;w[i],sizeof(w[i]),1,fp);
+
+      fclose(fp);
+
+      printf("\n\n\tPress enter if you agree with Username and Password");
+
+      if((c=getch())==13)
+
+        {
+
+        clrscr();
+
+        printf("\n\n\t\tYou are successfully registered");
+
+        printf("\n\n\t\tTry login your account??\n\n\t\t  ");
+
+        printf("&gt; PRESS 1 FOR YES\n\n\t\t  &gt; PRESS 2 FOR NO\n\n\t\t\t\t");
+
+        scanf("%d",&amp;n);
+
+        switch(n)
+
+          {
+
+              case 1: clrscr();
+
+                    login();
+
+                    break;
+
+              case 2: clrscr();
+
+                    printf("\n\n\n\t\t\t\t\tTHANK YOU FOR REGISTERING");
+
+                    break;
+
+          }
+
+        }
+
+        break;
+
+      }
+
+    getch();
+
+  }
 
 
   void login()
