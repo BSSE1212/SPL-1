@@ -155,6 +155,80 @@ int insert(nodeMLL **header, char *word, char *category){
    strncpy(p->categories->catName, category, nc);
    p->categories->next=NULL;
 
+   // if LL empty
+   if (*header == NULL) *header=p;
+
+   // if LL not empty
+   else {
+     q=*header;
+     while (q != NULL && strcmp(q->term, p->term)<0) {
+       r=q;
+	   q=q->next;
+	 }
+
+	 //if it already exists
+	 if (q!=NULL && strcmp(q->term, p->term)==0) {
+	 	if(strcmp(q->categories->catName, category)==0){
+	 		q->ctr++;
+	 		return 0;
+		 }
+		 else{
+		 	int nc = strlen(category);
+   		 	strncpy(q->categories->next->catName, category, nc);
+	 	 	q->categories->next->next=NULL;
+	 	 	q->ctr++;
+		 }
+	 }
+
+	 // insert node in a sorted fashion
+	 if (q!=NULL) p->next=q;
+
+	 // if value to insert is the least in LL then have header point to node
+     if (q==*header) *header=p;
+
+	 // otherwise insert node in correct position
+	 else r->next=p;
+   }
+   return 1;
+}
+
+int main(void)
+{
+	nodeMLL *MLL;
+    struct dirent *de, *dh, *dm;  // Pointer for directory entry
+
+  	///////////////////////////////////////////////
+    // opendir() FOR ECON DIRECTORY //////////////
+    //////////////////////////////////////////////
+    DIR *dirEcon = opendir("dataset/econ");
+
+    if (dirEcon == NULL)  // opendir returns NULL if couldn't open directory
+    {
+        printf("Could not open current directory" );
+        return 0;
+    }
+
+    //read directory
+    while ((de = readdir(dirEcon)) != NULL) {
+
+    		// open file ...
+			FILE *econf;
+			econf=fopen(de->d_name,"r");
+
+			// read in matrix ...
+		  	while (!feof(econf)) {
+		  		char *tempWord=getWord(econf);
+		  		insert(&MLL,tempWord,"econ");
+		  	}
+			fclose(econf);
+    }
+    closedir(dirEcon);
+
+	///////////////////////////////////////////////
+    // opendir() FOR HEALTH	 DIRECTORY //////////////
+    //////////////////////////////////////////////
+    DIR *dirHealth = opendir("dataset/health");
+
 
 
 
