@@ -1,11 +1,11 @@
 #include <stdio.h>
+#include <dirent.h>
 #include <string.h>
 
 struct nodeCat {
 	char catName[10];
     struct nodeCat *next;
 };
-
 
 struct node {
     char term[100];
@@ -15,11 +15,7 @@ struct node {
   };
 typedef struct node nodeMLL;
 
-
-
-
 // read file word by word
-
 char *getWord(FILE *fp){
 	char c;
 	char *word[100];
@@ -136,17 +132,12 @@ findDiscWords(nodeMLL *header, char *category){
   	printf("\nTerm-5: %d", fifth);
 }
 
-
-
-//insertion function
-
+// insertion function
 int insert(nodeMLL **header, char *word, char *category){
 	nodeMLL *p,*q,*r;
 
    // create node to insert and assign values to its fields
-
    p=malloc(sizeof(nodeMLL));
-
    int n = strlen(word);
    strncpy(p->term, word, n);
    p->ctr=1;
@@ -154,6 +145,7 @@ int insert(nodeMLL **header, char *word, char *category){
    int nc = strlen(category);
    strncpy(p->categories->catName, category, nc);
    p->categories->next=NULL;
+
 
    // if LL empty
    if (*header == NULL) *header=p;
@@ -192,7 +184,7 @@ int insert(nodeMLL **header, char *word, char *category){
    return 1;
 }
 
-int main(void)
+void main_of_bag()
 {
 	nodeMLL *MLL;
     struct dirent *de, *dh, *dm;  // Pointer for directory entry
@@ -224,12 +216,69 @@ int main(void)
     }
     closedir(dirEcon);
 
-	///////////////////////////////////////////////
-    // opendir() FOR HEALTH	 DIRECTORY //////////////
-    //////////////////////////////////////////////
+    //opendir() FOR HEALTH	 DIRECTORY
     DIR *dirHealth = opendir("dataset/health");
 
+    if (dirHealth == NULL)  // opendir returns NULL if couldn't open directory
+    {
+        printf("Could not open current directory" );
+        return 0;
+    }
+
+    //read directory
+    while ((dh = readdir(dirHealth)) != NULL) {
+
+    		// open file ...
+			FILE *healthf;
+			healthf=fopen(dh->d_name,"r");
+
+			// read in matrix ...
+		  	while (!feof(healthf)) {
+		  		char *tempWord=getWord(healthf);
+		  		insert(&MLL,tempWord,"health");
+		  	}
+			fclose(healthf);
+    }
+    closedir(dirHealth);
+
+    // opendir() FOR MAGAZIN DIRECTORY
+    DIR *dirMag = opendir("dataset/magazin");
+
+    if (dirMag == NULL)  // opendir returns NULL if couldn't open directory
+    {
+        printf("Could not open current directory" );
+        return 0;
+    }
+
+    //read directory
+    while ((dm = readdir(dirMag)) != NULL) {
+
+    		// open file ...
+			FILE *magf;
+			magf=fopen(dm->d_name,"r");
+
+			// read in matrix ...
+		  	while (!feof(magf)) {
+		  		char *tempWord=getWord(magf);
+		  		insert(&MLL,tempWord,"econ");
+		  	}
+			fclose(magf);
+    }
+    closedir(dirEcon);
 
 
 
+    // count stop words //////////////
 
+    findStopWords(MLL);
+
+
+    // Finding discriminating words //
+
+    findDiscWords(MLL,"econ");
+    findDiscWords(MLL,"health");
+    findDiscWords(MLL,"magazin");
+
+
+    return 0;
+}

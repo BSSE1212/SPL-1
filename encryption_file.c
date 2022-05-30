@@ -1,12 +1,13 @@
 #include<stdio.h>
 #include<conio.h>
-int main()
+
+void encrypt_file()
 {
     char fname[20], ch;
     FILE *fps, *fpt;
-    printf("Enter Filename: ");
-    gets(fname);
-    fps = fopen(fname, "r");
+    //printf("Enter Filename: ");
+    //gets(fname);
+    fps = fopen("Web_reg.txt", "r");
     if(fps == NULL)
         return 0;
     fpt = fopen("temp.txt", "w");
@@ -21,7 +22,7 @@ int main()
     }
     fclose(fps);
     fclose(fpt);
-    fps = fopen(fname, "w");
+    fps = fopen("Web_reg.txt", "w");
     if(fps == NULL)
         return 0;
     fpt = fopen("temp.txt", "r");
@@ -38,4 +39,9 @@ int main()
     printf("\nFile %s Encrypted Successfully!", fname);
     getch();
     return 0;
+}
+
+int main()
+{
+    encrypt_file();
 }

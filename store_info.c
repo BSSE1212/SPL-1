@@ -50,40 +50,57 @@ void WELCOME_PAGE()
     }
 
 
+int  load_book(char str[][3][30])
+{
+
+     FILE *fp;
+    if((fp=fopen("book.txt","r"))==NULL){
+        printf("Error opening file");
+        exit(1);
+    }
+
+    //load book details in ram
+
+
+    int i=0,total_book=0;
+    while(1)
+    {
+
+            if(fgets(str[i][0],30,fp)==NULL){
+                break;
+            }
+            fgets(str[i][1],30,fp);
+            fgets(str[i][2],30,fp);
+        i++;
+
+    }
+
+    return i;
+}
+
+
 void book_List()
 {
-          //struct book_list b[MAX_BOOK];
+    char str[100][3][30];
+         int total_book = load_book(str);
 
-          int num,i;
-          printf("Enter the Numbers of Books:");
-          scanf("%d",&num);
-          printf("\n");
-          for(i=0;i<num;i++)
-
-          {
-
-                   printf("\t=:Book %d Detail:=\n",i+1);
-
-                   printf("\nEnter the Book Name:\n");
-                   scanf("%s",b[i].name);
-
-                   printf("Enter the Author of Book:\n");
-                   scanf("%s",b[i].author_name);
-
-                   printf("Enter the category of Book:\n");
-                   scanf("%s",b[i].category);
-
-          }
-
-          output(b,num);
-
+    printf("Books are:\n\n\n");
+    for(int p=0;p<total_book;p++){
+        printf("%s\t%s \t%s\n",str[p][0],str[p][1],str[p][2]);
+    }
 }
+
+
 
 
 
 // view store informatiom
 /*void store_info()
 {
+
+    char str[100][3][30];
+         int total_book = load_book(str);
+
     int found = 0;
     char bookName[MAX_BOOK] = {0};
     //s_Store_Info addBookInfoInDataBase = {0};
@@ -105,7 +122,7 @@ void book_List()
     }
     while (fread (&addBook, sizeof(addBook), 1, fp))
     {
-        printf("\n\t\t\tBook Count = %d\n\n",countBook);
+        printf("\n\t\t\tBook Count = %d\n\n",total_book);
         printf("\t\t\tBook id = %u",addBook.books_id);
         printf("\n\t\t\tBook name = %s",addBook.bookName);
         printf("\t\t\tBook authorName = %s",addBook.authorName);
@@ -122,20 +139,71 @@ void book_List()
     printf("\n\n\t\t\tPress any key to go to main menu.....");
     fflush(stdin);
     getchar();
-}*/
+}
+*/
 
+
+
+
+void quickSort(char items[][3][30], int left, int right)
+{
+  int i, j;
+  char *x;
+  char temp[30];
+
+  i = left;
+  j = right;
+  x = items[(left+right)/2];
+
+  do {
+    while((strcmp(items[i][0],x) < 0) && (i < right)) {
+       i++;
+    }
+    while((strcmp(items[j][0],x) > 0) && (j > left)) {
+        j--;
+    }
+    if(i <= j) {
+        for(int p=0;p<3;p++){
+            strcpy(temp, items[i][p]);
+            strcpy(items[i][p], items[j][p]);
+            strcpy(items[j][p], temp);
+        }
+
+      i++;
+      j--;
+   }
+   //printf("%d %d\n",i,j);
+  } while(i <= j);
+
+  if(left < j) {
+     quickSort(items, left, j);
+  }
+  if(i < right) {
+     quickSort(items, i, right);
+  }
+}
+
+
+void quickSortMain(char items[][3][30], int count)
+{
+  quickSort(items, 0, count-1);
+  //printf("momin");
+}
 
 
 
 
  void search_books(){
 
-    FILE *fp;
 
-    if((fp=fopen("C:\\Users\\Hp\\Desktop\\SPL-1\\book.txt","r"))==NULL){
-        printf("Error opening file");
-        exit(1);
-    }
+    char str[100][3][30],total_book;
+
+
+
+    total_book = load_book(str);
+    quickSortMain(str,total_book);
+
+
 
 
     char name[100],name_2[100],author[100],catagory[100];
@@ -146,28 +214,25 @@ void book_List()
     name[x++] = '\n';
     name[x] = '\0';
 
-    int trace =0;
+    int trace =0,l=0,r=total_book,m;
 
-    while(1){
-
-            if(fgets(name_2,100,fp)==NULL){
-                break;
-            }
-            fgets(author,100,fp);
-            fgets(catagory,100,fp);
-
-
-            if(strcmp(name,name_2)==0){
-                    trace = 1;
+    while(l<=r){
+            m = (l+r)/2;
+    //printf("%s %s %d %d %d %d %d\n",name,str[m][0],m,l,r,strlen(name),strlen(str[m][0]));
+            if(strcmp(name,str[m][0])==0){
+                trace = 1;
                 printf("Book found\n");
                 printf("Book name: %s",name);
-                printf("Author name: %s",author);
-                printf("catagory name: %s",catagory);
+                printf("Author name: %s",str[m][1]);
+                printf("catagory name: %s",str[m][2]);
 
                 break;
             }
-            else if(strlen(name_2)== 0){
-                break;
+            else if(strcmp(str[m][0],name) > 0){
+                r = m-1;
+            }
+            else{
+                l = m+1;
             }
     }
 
@@ -179,20 +244,20 @@ void book_List()
 
 
 void Read_book(){
-    search_books();
+    //search_books();
 char bookname[50];
 printf("input book name: ");
 
     gets(bookname);
     strcat(bookname,".txt");
-    printf("the %s is opening soon %d \n",bookname,strcmp(bookname,"Gora.txt"));
+    printf("the %s is opening soon \n",bookname);
 
  FILE *fp;
 
  fp = fopen(bookname,"r+");        //read corresponding text
 
  if(!fp){
-    printf("Error open this file");
+    printf("Book not found in library");
     exit(1);
  }
  char ch[1000];
@@ -212,8 +277,28 @@ printf("input book name: ");
 }
 
 void add_books(){
+        char str[100][3][30];
+        int total_book = load_book(str);
+
+        FILE *fp;
+
+        fp = fopen("book.txt","a+");
+        if(fp == NULL){
+            printf("Error opening filr");
+        }
+
+        printf("Input book name: ");
+        scanf("%s",&str[total_book][0]);
+        printf("Input book author name: ");
+        scanf("%s",&str[total_book][1]);
+        printf("Input book catagory name: ");
+        scanf("%s",&str[total_book][2]);
 
 
+        fprintf(fp,"%s\n%s\n%s",str[total_book][0],str[total_book][1],str[total_book][2]);
+
+
+        printf("Book added successfuly\n\n\n");
 
 
 
@@ -284,10 +369,7 @@ void deleteBooks()
 }
 
 
-void Information_retrieval()
-{
-
-}
+//void Information_retrieval()
 
 
 void MAIN_MENU()
@@ -300,6 +382,7 @@ void MAIN_MENU()
         printf("\n\t\t\t2.Read_book");
         printf("\n\t\t\t3.View Books");
         printf("\n\t\t\t4.Delete Book");
+        printf("\n\t\t\t5.Add Book");
         printf("\n\t\t\t6.Search Book");
         printf("\n\t\t\t0.Exit");
         printf("\n\n\n\t\t\tEnter choice => ");
@@ -319,7 +402,7 @@ void MAIN_MENU()
             deleteBooks();
             break;
         case 5:
-           Information_retrieval();
+           add_books();
             break;
         case 6:
            search_books();

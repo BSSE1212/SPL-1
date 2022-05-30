@@ -11,174 +11,89 @@ void login(void);
 
 int main()
 {
-clrscr();
-printf("\n\n\n\n\n\t\t\t\tWELCOME TO LIBRARY SYSTEM");
-printf("\n\t\t\t\t=====================");
-printf("\n\n\n\n\t\t\tPress Enter to proceed...!!");
-if(getch()==13)
-  clrscr();
+    printf("\n\n\n\n\n\t\t\t\tWELCOME TO LIBRARY SYSTEM\n\n");
+    login();
+}
 
-  void reg()
-
-  {
-
+void reg()
+{
     FILE *fp;
 
-    char c,checker[30]; int z=0;
+    char c,checker[30];
+    int z=0, flag;
+    char userName[40], password[30];
 
-    fp=fopen("Web_reg.txt","ab+");
+    fp=fopen("Web_reg.txt","a+");
 
     printf("\n\n\t\t\t\tWELCOME TO REGISTER ZONE");
 
     printf("\n\t\t\t\t^^^^^^^^^^^^^^^^^^^^^^^^");
 
-    for(i=0;i&lt;100;i++)
 
-    {
-
-      printf("\n\n\t\t\t\t  ENTER USERNAME: ");
-
-      scanf("%s",checker);
+    while(1) {
+        printf("\n\n\t\t\t\t  ENTER USERNAME: ");
+        scanf("%s",checker);
+        flag = 1;
 
         while(!feof(fp))
-
         {
+            fscanf(fp, "%s%s",&userName, &password);
 
-          fread(&amp;w[i],sizeof(w[i]),1,fp);
-
-          if(strcmp(checker,w[i].name)==0)
-
+            if(strcmp(checker,userName)==0)
             {
-
-            printf("\n\n\t\t\tUSERNAME ALREDY EXISTS");
-
-            clrscr();
-
-            reg();
-
+                printf("\n\n\t\t\t This user name already exist\n");
+                printf("Enter the user name again.....\n");
+                flag = 0;
+                break;
             }
-
-          else
-
-          {
-
-            strcpy(w[i].name,checker);
-
-            break;
-
-          }
-
         }
-
-      printf("\n\n\t\t\t\t  DESIRED PASSWORD: ");
-
-      while((c=getch())!=13)
-
-        {
-
-          w[i].pass[z++]=c;
-
-          printf("%c",'*');
-
+        if(flag == 1) {
+            strcpy(userName,checker);
+            break;  // Because new user name found
         }
+    }
 
-      fwrite(&amp;w[i],sizeof(w[i]),1,fp);
+    printf("\n\n\t\t\t\t  DESIRED PASSWORD: ");
+    scanf("%s",password);
 
-      fclose(fp);
-
-      printf("\n\n\tPress enter if you agree with Username and Password");
-
-      if((c=getch())==13)
-
-        {
-
-        clrscr();
-
-        printf("\n\n\t\tYou are successfully registered");
-
-        printf("\n\n\t\tTry login your account??\n\n\t\t  ");
-
-        printf("&gt; PRESS 1 FOR YES\n\n\t\t  &gt; PRESS 2 FOR NO\n\n\t\t\t\t");
-
-        scanf("%d",&amp;n);
-
-        switch(n)
-
-          {
-
-              case 1: clrscr();
-
-                    login();
-
-                    break;
-
-              case 2: clrscr();
-
-                    printf("\n\n\n\t\t\t\t\tTHANK YOU FOR REGISTERING");
-
-                    break;
-
-          }
-
-        }
-
-        break;
-
-      }
-
-    getch();
-
+    fprintf(fp, "%s %s\n", userName, password);
+    fclose(fp);
+    printf("Your registration is successfully done!!!!");
   }
 
 
-  void login()
+void login()
+{
+    FILE *fp;
+    char userName[40], password[40], user[40], pass[40];
+    int flag;
+
+    fp=fopen("Web_reg.txt","a+");
+
+    printf("\n\n\t\t\t\tWELCOME TO LOG IN ZONE");
+    printf("\n\t\t\t\t^^^^^^^^^^^^^^^^^^^^^^");
+
+    printf("\n\n\t\t\t\t  ENTER USERNAME: ");
+    scanf("%s",userName);
+    printf("\n\t\t\t\t  ENTER PASSWORD: ");
+    scanf("%s",password);
+
+
+    flag = 0;
+    while(!feof(fp))
     {
-      FILE *fp;
-      char c,name[30],pass[30]; int z=0;
-      int checku,checkp;
-      fp=fopen("Web_reg.txt","rb");
-
-      printf("\n\n\t\t\t\tWELCOME TO LOG IN ZONE");
-      printf("\n\t\t\t\t^^^^^^^^^^^^^^^^^^^^^^");
-      for(i=0;i<1000;i++)
-      {
-        printf("\n\n\t\t\t\t  ENTER USERNAME: ");
-        scanf("%s",name);
-        printf("\n\n\t\t\t\t  ENTER PASSWORD: ");
-        while((c=getch())!=13)
-        {
-          pass[z++]=c;
-          printf("%c",'*');
+        fscanf(fp, "%s %s", &user, &pass);
+        // call decryption function using user and pass
+        if(strcmp(user,userName) == 0 && strcmp(pass, password) == 0){
+            printf("Login successfully done!!!");
+            fclose(fp);
+            flag = 1;
+            break;
         }
-        pass[z]='\0';
-      while(!feof(fp))
-      {
-        fread(&w[i],sizeof(w[i]),1,fp);
-        checku=strcmp(name,w[i].name);
-        checkp=strcmp(pass,w[i].pass);
-
-          if(checku==0&&checkp==0)
-          {
-           clrscr();
-           printf("\n\n\n\t\t\tYOU HAVE LOGGED IN SUCCESSFULLY!!");
-           printf("\n\n\n\t\t\t\tWELCOME, HAVE A NICE DAY");
-           break;
-          }
-          else if(checku==0&&checkp!=0)
-          {
-            printf("\n\n\n\t\t\tWRONG PASSWORD!! Not %s??",name);
-            printf("\n\n\t\t\t\t  (Press 'Y' to re-login)");
-            if(getch()=='y'||getch()=='Y')
-              login();
-          }
-         else if(checku!=0)
-          {
-            printf("\n\n\n\t\t\tYou are not a Registered User\n \t\t\tPress enter to register yourself");
-            if(getch()==13)
-            clrscr();
-          }
-        }
-        break;
-      }
-      getch();
     }
+    if(flag != 1) {
+        printf("There is no user in this name...");
+        printf("\nPlease registration ");
+        reg();
+    }
+}
